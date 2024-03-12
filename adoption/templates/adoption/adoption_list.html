@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animal Adoption List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 15px;
+            width: 300px;
+            text-align: left;
+            overflow: hidden;
+            position: relative;
+            transition: box-shadow 0.3s ease;
+        }
+
+        li:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .animal-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .animal-info img {
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        li:hover .animal-info img {
+            transform: scale(1.1);
+        }
+
+        a {
+            display: block;
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 10px 20px;
+        }
+
+        a:hover {
+            background-color: #333;
+        }
+        form {
+            margin: 10px 0;
+        }
+
+        input[type="text"] {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .edit-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Animal Adoption List</h1>
+    <form method="get" action="{% url 'animal_list' %}">
+        <input type="text" name="q" placeholder="Search by name or species" value="{{ query }}">
+        <input type="submit" value="Search">
+    </form>
+    <a href="{% url 'adoption_form' %}">Fill Animal Adoption Form</a><!-- Link to the form page -->
+    <ul>
+        {% for animal in animals %}
+            <li>
+                <div class="animal-info">
+                    {% if animal.image %}
+                    <img src="{{ animal.image.url }}" alt="{{ animal.name }} Image">
+                    {% endif %}
+                    <h2>{{ animal.name }}</h2>
+                    <p><strong>Species:</strong> {{ animal.species }}</p>
+                    <p><strong>Age:</strong> {{ animal.age }}</p>
+                   
+                    <p><strong>Description:</strong> {{ animal.description }}</p>
+                    <a class="edit-button" href="{% url 'animal_edit' animal.id %}">Edit</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html> 
